@@ -1,9 +1,10 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "pages/Home";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element />
+      <Route path="/" element={<Home />} />
       <Route path="/video" />
     </Routes>
   );
