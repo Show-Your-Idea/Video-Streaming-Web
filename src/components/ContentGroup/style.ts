@@ -5,4 +5,5 @@ export const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   column-gap: 24px;
+  color: ${({ theme }) => theme.color.white};
 `;

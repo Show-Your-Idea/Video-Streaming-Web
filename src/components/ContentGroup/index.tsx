@@ -1,7 +1,11 @@
 import * as S from "./style";
 
-function ContentGroup() {
-  return <S.Grid></S.Grid>;
+interface PropTypes {
+  episodes: string[];
+}
+
+function ContentGroup({ episodes }: PropTypes) {
+  return <S.Grid>{episodes.join(" ")}</S.Grid>;
 }
 
 export default ContentGroup;

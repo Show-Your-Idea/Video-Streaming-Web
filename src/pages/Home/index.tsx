@@ -1,11 +1,13 @@
 import { getList } from "apis/list.api";
 import ContentGroup from "components/ContentGroup";
 import RadioGroup from "components/RadioGroup";
+import { useState } from "react";
 import { useQuery } from "react-query";
 import Banner from "../../components/Banner";
 import * as S from "./style";
 
 function Home() {
+  const [seasonIdx, setSeasonIdx] = useState(0);
   const { isLoading, data: listData } = useQuery("list", getList, {
     onSuccess(data) {
       console.log(data);
@@ -15,14 +17,15 @@ function Home() {
     },
     refetchOnWindowFocus: false,
   });
+  const episodes = isLoading ? [] : listData[listData["seasons"][seasonIdx].toLowerCase()];
 
   return (
     <S.Container>
       <Banner />
       {isLoading ? null : (
         <>
-          <RadioGroup seasonList={listData["seasons"]} />
-          <ContentGroup />
+          <RadioGroup seasonList={listData["seasons"]} setSeasonIdx={setSeasonIdx} />
+          <ContentGroup episodes={episodes} />
         </>
       )}
     </S.Container>
