@@ -1,5 +1,5 @@
 import { getList } from "apis/list.api";
-import ContentGroup from "components/ContentGroup";
+import EpisodesGroup from "components/EpisodesGroup";
 import RadioGroup from "components/RadioGroup";
 import { useState } from "react";
 import { useQuery } from "react-query";
@@ -25,7 +25,7 @@ function Home() {
       {isLoading ? null : (
         <>
           <RadioGroup seasonList={listData["seasons"]} setSeasonIdx={setSeasonIdx} />
-          <ContentGroup episodes={episodes} />
+          <EpisodesGroup episodes={episodes} />
         </>
       )}
     </S.Container>
