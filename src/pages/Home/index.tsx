@@ -11,9 +11,6 @@ function Home() {
   const [seasonIdx, setSeasonIdx] = useState(0);
 
   const { data: listData } = useQuery(LIST, getList, {
-    onSuccess(data) {
-      console.log(data);
-    },
     refetchOnWindowFocus: false,
   });
 

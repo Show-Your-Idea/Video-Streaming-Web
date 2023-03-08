@@ -2,8 +2,6 @@ import React from "react";
 import * as S from "./style";
 import EmptyThumb from "../../assets/emptyThumb.svg";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { videoInfo } from "atoms/videoInfo.atom";
 
 interface PropTypes {
   season: string;
@@ -11,7 +9,6 @@ interface PropTypes {
 }
 
 function EpisodesGroup({ season, episodes }: PropTypes) {
-  const setVideoInfo = useSetRecoilState(videoInfo);
   const navigate = useNavigate();
 
   return (
@@ -20,8 +17,7 @@ function EpisodesGroup({ season, episodes }: PropTypes) {
         <S.Episode
           key={idx}
           onClick={() => {
-            setVideoInfo({ season, episode });
-            navigate(`/video`);
+            navigate(`/video?season=${season}&episode=${episode}`);
           }}
         >
           <S.ThumbWrap>
