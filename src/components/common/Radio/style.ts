@@ -9,6 +9,7 @@ export const Label = styled.label`
   font-weight: bold;
   border-radius: 8px;
   color: ${({ theme }) => theme.color.white};
+  cursor: pointer;
 `;
 
 export const Content = styled.div`

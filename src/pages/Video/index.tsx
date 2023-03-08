@@ -1,9 +1,18 @@
-import { getVideo } from "apis/video.api";
-import { useQuery } from "react-query";
+import { videoInfo } from "atoms/videoInfo.atom";
+import { useRecoilValue } from "recoil";
 
 function Video() {
-  const { isLoading, data } = useQuery("video", () => getVideo("S1", 1));
-  return isLoading ? null : <video src={data} controls></video>;
+  const { season, episode } = useRecoilValue(videoInfo);
+
+  return season && episode ? (
+    <video
+      width={500}
+      src={`${process.env.REACT_APP_BASE_URL}/video?season=${season}&episode=${episode}`}
+      controls
+    ></video>
+  ) : (
+    <div>Wrong Access</div>
+  );
 }
 
 export default Video;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Grid = styled.div`
-  margin-top: 20px;
+  margin: 20px auto 100px;
   width: 952px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -14,6 +14,7 @@ export const Episode = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 8px;
+  cursor: pointer;
 `;
 
 export const ThumbWrap = styled.div`

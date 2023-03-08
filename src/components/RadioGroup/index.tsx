@@ -3,14 +3,14 @@ import React from "react";
 import * as S from "./style";
 
 interface PropTypes {
-  seasonList: string[];
+  seasonList?: string[];
   setSeasonIdx: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function RadioGroup({ seasonList, setSeasonIdx }: PropTypes) {
   return (
     <S.Wrap>
-      {seasonList.map((season, idx) => (
+      {seasonList?.map((season, idx) => (
         // idx가 0인 시즌을 기본으로 체크
         <Radio name="season" checked={idx === 0} onChange={() => setSeasonIdx(idx)} key={season}>
           {season}
