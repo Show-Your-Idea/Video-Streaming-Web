@@ -10,14 +10,14 @@ interface PropTypes {
 function RadioGroup({ seasonList, setSeasonIdx }: PropTypes) {
   console.log("RadioGroup");
   return (
-    <S.Wrap>
+    <S.Group>
       {seasonList?.map((season, idx) => (
         // idx가 0인 시즌을 기본으로 체크
         <Radio name="season" checked={idx === 0} onChange={() => setSeasonIdx(idx)} key={season}>
           {season}
         </Radio>
       ))}
-    </S.Wrap>
+    </S.Group>
   );
 }
 

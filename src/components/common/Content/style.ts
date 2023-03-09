@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+export const Wrap = styled.div``;
+
 export const Img = styled.img`
   width: 220px;
   height: 124px;

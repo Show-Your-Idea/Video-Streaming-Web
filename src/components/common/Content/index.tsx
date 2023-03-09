@@ -8,10 +8,10 @@ interface PropsType {
 
 function Content({ src, children }: PropsType) {
   return (
-    <div>
+    <S.Wrap>
       <S.Img />
       <S.Title>{children}</S.Title>
-    </div>
+    </S.Wrap>
   );
 }
 
