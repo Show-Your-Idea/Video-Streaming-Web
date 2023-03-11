@@ -15,22 +15,58 @@ function Video() {
     if (!season || !episode) {
       navigate("/");
     }
+
+    document.addEventListener("fullscreenchange", () => {
+      videoContainerRef.current?.classList.toggle("full-screen", !!document.fullscreenElement);
+    });
+    videoRef.current?.addEventListener("enterpictureinpicture", () => {
+      videoContainerRef.current?.classList.add("mini-player");
+    });
+    videoRef.current?.addEventListener("leavepictureinpicture", () => {
+      videoContainerRef.current?.classList.remove("mini-player");
+    });
   }, []);
 
   const handleVideoPlayPause = () => {
-    if (videoRef.current === null) return;
-    videoRef.current.paused ? videoRef.current.play() : videoRef.current.pause();
+    const tagName = document.activeElement?.tagName.toLowerCase();
+    if (tagName === "input") return;
+    videoRef.current?.paused ? videoRef.current.play() : videoRef.current?.pause();
   };
 
   const onPlay = () => {
-    if (videoContainerRef.current !== null) videoContainerRef.current.classList.remove("paused");
+    videoContainerRef.current?.classList.remove("paused");
   };
   const onPause = () => {
-    if (videoContainerRef.current !== null) videoContainerRef.current.classList.add("paused");
+    videoContainerRef.current?.classList.add("paused");
+  };
+
+  const toggleMiniPlayerMode = () => {
+    if (videoContainerRef.current?.classList.contains("mini-player")) {
+      document.exitPictureInPicture();
+    } else {
+      videoRef.current?.requestPictureInPicture();
+    }
+  };
+  const toggleTheaterMode = () => {
+    console.log(document.fullscreenElement);
+    if (document.fullscreenElement != null) {
+      console.log("test");
+      videoContainerRef.current?.classList.add("theater");
+      document.exitFullscreen();
+      return;
+    }
+    videoContainerRef.current?.classList.toggle("theater");
+  };
+  const toggleFullScreenMode = () => {
+    if (document.fullscreenElement == null) {
+      videoContainerRef.current?.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
   };
 
   return season && episode ? (
-    <S.VideoContainer ref={videoContainerRef} className="paused">
+    <S.VideoContainer ref={videoContainerRef} className="paused" data-volume-level="high">
       <S.Video
         ref={videoRef}
         src={`${process.env.REACT_APP_BASE_URL}/video?season=${season}&episode=${episode}`}
@@ -38,7 +74,12 @@ function Video() {
         onPause={onPause}
         onClick={handleVideoPlayPause}
       ></S.Video>
-      <VideoControls handleVideoPlayPause={handleVideoPlayPause} />
+      <VideoControls
+        handleVideoPlayPause={handleVideoPlayPause}
+        toggleMiniPlayerMode={toggleMiniPlayerMode}
+        toggleTheaterMode={toggleTheaterMode}
+        toggleFullScreenMode={toggleFullScreenMode}
+      />
     </S.VideoContainer>
   ) : null;
 }

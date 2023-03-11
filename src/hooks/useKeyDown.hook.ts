@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const useKeyDown = (targetKeys: string | string[], onKeyDown: () => any) => {
+export const useKeyDown = (onKeyDown: () => any, targetKeys: string | string[]) => {
   const handleKeyDown = (event: KeyboardEvent) => {
     if (typeof targetKeys === "string" && event.key === targetKeys) {
       onKeyDown();
