@@ -6,91 +6,80 @@ export const ControlsContainer = styled.div`
   left: 0;
   right: 0;
   color: white;
-  z-index: 100;
+  z-index: 1;
   opacity: 0;
   transition: opacity 150ms ease-in-out;
-`;
-
-export const TimeLineContainer = styled.div``;
-
-export const Controls = styled.div`
   display: flex;
-  gap: 0.5rem;
-  padding: 0.25rem;
-  align-items: center;
+  column-gap: 10px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+    width: calc(100% + 1px);
+    aspect-ratio: 6 / 1;
+    z-index: -1;
+    pointer-events: none;
+  }
 `;
 
-export const IconButton = styled.button`
-  color: inherit;
+export const Icon = styled.img<{ display?: boolean }>`
   width: 30px;
   height: 30px;
-  font-size: 1.1rem;
-  opacity: 0.85;
-  transition: opacity 150ms ease-in-out;
-
-  &:hover {
-    opacity: 1;
-  }
+  display: ${({ display = true }) => (display ? "" : "none")};
 `;
 
-export const PlayIcon = styled.svg``;
-
-export const PauseIcon = styled.svg``;
-
-export const TallIcon = styled.svg``;
-
-export const WideIcon = styled.svg``;
-
-export const OpenIcon = styled.svg``;
-
-export const CloseIcon = styled.svg``;
+export const IconContainer = styled.div`
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  cursor: pointer;
+`;
 
 export const VolumeSlider = styled.input`
-  background-color: none;
-  width: 0;
+  height: 30px;
+  position: absolute;
+  left: 50%;
+  transform: rotate(-90deg) translateY(-50%);
+  transform-origin: top left;
   transition: width 100ms ease-in-out;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  width: 0px;
   cursor: pointer;
   background-color: transparent;
-  height: 30px;
-  display: flex;
 
-  &::-webkit-slider-runnable-track {
-    background-color: white;
+  ::-webkit-slider-runnable-track {
     height: 3px;
-    width: 40px;
+    background: linear-gradient(
+      to right,
+      white 0%,
+      white ${({ value }) => value}%,
+      rgba(255, 255, 255, 0.2) ${({ value }) => value}%,
+      rgba(255, 255, 255, 0.2) 100%
+    );
   }
-  &::-webkit-slider-thumb {
+
+  ::-webkit-slider-thumb {
     position: relative;
-    -webkit-appearance: none;
     appearance: none;
+    -webkit-appearance: none;
+    background-color: white;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
     top: 50%;
     transform: translateY(-50%);
-    height: 12px;
-    width: 12px;
-    border-radius: 50%;
-    background-color: red;
   }
 `;
 
 export const VolumeContainer = styled.div`
+  position: relative;
   display: flex;
-  align-items: center;
-  height: 100%;
+  flex-direction: column;
 
   &:hover ${VolumeSlider} {
-    width: 52px;
+    top: 0;
+    width: 64px;
   }
-`;
-
-export const VolumeHighIcon = styled.svg`
-  display: none;
-`;
-
-export const VolumeLowIcon = styled.svg`
-  display: none;
-`;
-
-export const VolumeMutedIcon = styled.svg`
-  display: none;
 `;
