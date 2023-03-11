@@ -1,39 +1,39 @@
 import * as S from "./style";
 import * as I from "assets/videoControls";
 import { HIGH, LOW, MUTED } from "constants/volume.constant";
-import React, { useState } from "react";
+import { useInputRange } from "hooks/useInputRange.hook";
 
 // import MiniPlayer from "assets/videoControls/miniPlayer.svg";
 
 interface PropTypes {
   toggleVideoPlayPause: () => any;
-  toggleVolumeMute: () => any;
+  toggleMute: () => any;
+  handleChangeVolume: (volume: number) => any;
   isPaused: boolean;
   volumeState: string;
 }
 
 function VideoControls({
   toggleVideoPlayPause,
-  toggleVolumeMute,
+  toggleMute,
+  handleChangeVolume,
   isPaused,
   volumeState,
 }: PropTypes) {
-  const [volume, setVolume] = useState(50);
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setVolume(Number(e.target.value));
-  };
+  const volume = useInputRange(100, handleChangeVolume);
+
   return (
     <S.ControlsContainer>
-      <S.IconContainer onClick={toggleVideoPlayPause}>
-        <S.Icon src={I.Play} display={isPaused} />
-        <S.Icon src={I.Pause} display={!isPaused} />
+      <S.IconContainer onClick={toggleVideoPlayPause} style={{ marginLeft: 8 }}>
+        <S.Icon src={I.Play} isDisplay={isPaused} />
+        <S.Icon src={I.Pause} isDisplay={!isPaused} />
       </S.IconContainer>
       <S.VolumeContainer>
-        <S.VolumeSlider value={volume} onChange={onChange} type="range" />
-        <S.IconContainer onClick={toggleVolumeMute}>
-          <S.Icon src={I.VolmueHigh} display={volumeState === HIGH} />
-          <S.Icon src={I.VolmueLow} display={volumeState === LOW} />
-          <S.Icon src={I.VolmueMute} display={volumeState === MUTED} />
+        <S.VolumeSlider {...volume} type="range" />
+        <S.IconContainer onClick={toggleMute}>
+          <S.Icon src={I.VolmueHigh} isDisplay={volumeState === HIGH} />
+          <S.Icon src={I.VolmueLow} isDisplay={volumeState === LOW} />
+          <S.Icon src={I.VolmueMute} isDisplay={volumeState === MUTED} />
         </S.IconContainer>
       </S.VolumeContainer>
       <S.IconContainer>

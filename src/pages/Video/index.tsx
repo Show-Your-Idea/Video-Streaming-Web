@@ -1,5 +1,5 @@
 import VideoControls from "components/VideoControls";
-import { LOW, MUTED } from "constants/volume.constant";
+import { HIGH, LOW, MUTED } from "constants/volume.constant";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as S from "./style";
@@ -13,7 +13,7 @@ function Video() {
   const episode = searchParams.get("episode");
 
   const [isPaused, setIsPaused] = useState(true);
-  const [volumeState, setVolumeState] = useState(MUTED);
+  const [volumeState, setVolumeState] = useState(HIGH);
 
   useEffect(() => {
     if (!season || !episode) {
@@ -30,12 +30,36 @@ function Video() {
     setIsPaused((prev) => !prev);
   };
 
-  const toggleVolumeMute = () => {
-    setVolumeState(LOW);
+  const changeVolumeState = () => {
+    if (!(videoRef.current instanceof HTMLVideoElement)) return;
+    if (videoRef.current.volume > 0.5) {
+      setVolumeState(HIGH);
+    } else if (videoRef.current.volume > 0) {
+      setVolumeState(LOW);
+    } else {
+      setVolumeState(MUTED);
+    }
+  };
+
+  const toggleMute = () => {
+    if (!(videoRef.current instanceof HTMLVideoElement)) return;
+    videoRef.current.muted = !videoRef.current.muted;
+    if (videoRef.current.muted) setVolumeState(MUTED);
+    else {
+      changeVolumeState();
+    }
+  };
+
+  const handleChangeVolume = (volume: number) => {
+    if (!(videoRef.current instanceof HTMLVideoElement)) return;
+
+    videoRef.current.volume = volume / 100;
+    videoRef.current.muted = volume === 0;
+    changeVolumeState();
   };
 
   return season && episode ? (
-    <S.VideoContainer ref={videoContainerRef} className="paused" data-volume-level="high">
+    <S.VideoContainer ref={videoContainerRef} className="paused">
       <S.Video
         ref={videoRef}
         src={`${process.env.REACT_APP_BASE_URL}/video?season=${season}&episode=${episode}`}
@@ -43,7 +67,8 @@ function Video() {
       ></S.Video>
       <VideoControls
         toggleVideoPlayPause={toggleVideoPlayPause}
-        toggleVolumeMute={toggleVolumeMute}
+        toggleMute={toggleMute}
+        handleChangeVolume={handleChangeVolume}
         isPaused={isPaused}
         volumeState={volumeState}
       />

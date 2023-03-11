@@ -10,7 +10,7 @@ export const ControlsContainer = styled.div`
   opacity: 0;
   transition: opacity 150ms ease-in-out;
   display: flex;
-  column-gap: 10px;
+  /* column-gap: 15px; */
 
   &::before {
     content: "";
@@ -24,21 +24,24 @@ export const ControlsContainer = styled.div`
   }
 `;
 
-export const Icon = styled.img<{ display?: boolean }>`
-  width: 30px;
-  height: 30px;
-  display: ${({ display = true }) => (display ? "" : "none")};
+export const Icon = styled.img<{ isDisplay?: boolean }>`
+  width: 24px;
+  height: 24px;
+  display: ${({ isDisplay = true }) => (isDisplay ? "" : "none")};
 `;
 
 export const IconContainer = styled.div`
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   cursor: pointer;
 `;
 
 export const VolumeSlider = styled.input`
-  height: 30px;
+  height: 24px;
   position: absolute;
   left: 50%;
   transform: rotate(-90deg) translateY(-50%);

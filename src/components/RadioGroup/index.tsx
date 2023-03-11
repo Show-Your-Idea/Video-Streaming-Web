@@ -8,7 +8,6 @@ interface PropTypes {
 }
 
 function RadioGroup({ seasonList, setSeasonIdx }: PropTypes) {
-  console.log("RadioGroup");
   return (
     <S.Group>
       {seasonList?.map((season, idx) => (
