@@ -13,8 +13,9 @@
     "es6": true
   },
   "extends": [
-    "plugin:@typescript-eslint/recommended",
     "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
     // typescript 표준 규칙 모음
     "plugin:import/errors",
     "plugin:import/warnings",
