@@ -32,9 +32,7 @@ function Video() {
       return;
     }
 
-    // videoContainerRef.current?.requestFullscreen();
-    // videoRef.current?.pause();
-    console.log(videoRef.current?.autoplay);
+    videoContainerRef.current?.requestFullscreen();
   }, []);
 
   const toggleVideoPlayPause = () => {
@@ -143,6 +141,7 @@ function Video() {
         progressPosition={progressPosition}
         timelineContainerRef={timelineContainerRef}
         duration={duration}
+        time={time}
       />
     </S.VideoContainer>
   ) : null;

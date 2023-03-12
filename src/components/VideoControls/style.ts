@@ -92,6 +92,13 @@ export const VolumeContainer = styled.div`
   }
 `;
 
+export const Time = styled.div<{ progressPosition: number }>`
+  position: absolute;
+  top: -32px;
+  left: calc(${({ progressPosition }) => progressPosition} * 100%);
+  transform: translate(-50%);
+`;
+
 export const TimelineIndicator = styled.div<{ progressPosition: number }>`
   --scale: 0;
   position: absolute;

@@ -16,6 +16,7 @@ interface PropTypes {
   progressPosition: number;
   timelineContainerRef: React.Ref<HTMLDivElement>;
   duration: string;
+  time: string;
 }
 
 const VideoControls = ({
@@ -30,6 +31,7 @@ const VideoControls = ({
   progressPosition,
   timelineContainerRef,
   duration,
+  time,
 }: PropTypes) => {
   const volume = useInputRange(100, handleChangeVolume);
   return (
@@ -54,6 +56,7 @@ const VideoControls = ({
         onMouseDown={toggleScrubbing}
       >
         <S.Timeline previewPosition={previewPosition} progressPosition={progressPosition}>
+          <S.Time progressPosition={progressPosition}>{time}</S.Time>
           <S.TimelineIndicator progressPosition={progressPosition}></S.TimelineIndicator>
         </S.Timeline>
       </S.TimelineContainer>
