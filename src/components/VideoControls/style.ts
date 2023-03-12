@@ -139,6 +139,7 @@ export const TimelineContainer = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+  margin-inline: 8px;
 
   :hover {
     ${Timeline} {
@@ -148,4 +149,9 @@ export const TimelineContainer = styled.div`
       --scale: 1;
     }
   }
+`;
+
+export const DurationContainer = styled.div`
+  width: 40px;
+  text-align: center;
 `;

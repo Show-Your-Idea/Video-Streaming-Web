@@ -3,6 +3,7 @@ import { HIGH, LOW, MUTED } from "constants/volume.constant";
 import { useDocumentEvent } from "hooks/useDocumentEvent.hook";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { formatDuration } from "utils/formatDuration.util";
 import * as S from "./style";
 
 function Video() {
@@ -21,6 +22,8 @@ function Video() {
 
   const [previewPosition, setPreviewPosition] = useState(0);
   const [progressPosition, setProgressPosition] = useState(0);
+  const [duration, setDuration] = useState("");
+  const [time, setTime] = useState("");
   const wasPaused = useRef(true);
 
   useEffect(() => {
@@ -29,8 +32,9 @@ function Video() {
       return;
     }
 
-    videoContainerRef.current?.requestFullscreen();
-    videoRef.current?.pause();
+    // videoContainerRef.current?.requestFullscreen();
+    // videoRef.current?.pause();
+    console.log(videoRef.current?.autoplay);
   }, []);
 
   const toggleVideoPlayPause = () => {
@@ -97,6 +101,19 @@ function Video() {
     }
   };
 
+  const handleSetDuration = () => {
+    if (!videoRef.current?.duration) return;
+    setDuration(formatDuration(videoRef.current?.duration));
+  };
+
+  const handleTimeUpdate = () => {
+    if (!videoRef.current?.currentTime || !videoRef.current?.duration) return;
+    setTime(formatDuration(videoRef.current?.currentTime));
+    const percent = videoRef.current.currentTime / videoRef.current.duration;
+    console.log(videoRef.current.currentTime / videoRef.current.duration);
+    setProgressPosition(percent);
+  };
+
   useDocumentEvent("mouseup", (e: React.MouseEvent | MouseEvent) => {
     if (isScrubbing.current) toggleScrubbing(e);
   });
@@ -110,6 +127,9 @@ function Video() {
         ref={videoRef}
         src={`${process.env.REACT_APP_BASE_URL}/video?season=${season}&episode=${episode}`}
         onClick={toggleVideoPlayPause}
+        onLoadedData={handleSetDuration}
+        onTimeUpdate={handleTimeUpdate}
+        autoPlay
       ></S.Video>
       <VideoControls
         toggleVideoPlayPause={toggleVideoPlayPause}
@@ -122,6 +142,7 @@ function Video() {
         previewPosition={previewPosition}
         progressPosition={progressPosition}
         timelineContainerRef={timelineContainerRef}
+        duration={duration}
       />
     </S.VideoContainer>
   ) : null;

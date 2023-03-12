@@ -15,6 +15,7 @@ interface PropTypes {
   previewPosition: number;
   progressPosition: number;
   timelineContainerRef: React.Ref<HTMLDivElement>;
+  duration: string;
 }
 
 const VideoControls = ({
@@ -28,6 +29,7 @@ const VideoControls = ({
   previewPosition,
   progressPosition,
   timelineContainerRef,
+  duration,
 }: PropTypes) => {
   const volume = useInputRange(100, handleChangeVolume);
   return (
@@ -55,6 +57,8 @@ const VideoControls = ({
           <S.TimelineIndicator progressPosition={progressPosition}></S.TimelineIndicator>
         </S.Timeline>
       </S.TimelineContainer>
+
+      <S.DurationContainer>{duration}</S.DurationContainer>
 
       <S.IconContainer>
         <S.Icon src={I.MiniPlayer} />
