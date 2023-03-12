@@ -1,6 +1,7 @@
 import VideoControls from "components/VideoControls";
 import { HIGH, LOW, MUTED } from "constants/volume.constant";
-import { useEffect, useRef, useState } from "react";
+import { useDocumentEvent } from "hooks/useDocumentEvent.hook";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as S from "./style";
 
@@ -14,6 +15,13 @@ function Video() {
 
   const [isPaused, setIsPaused] = useState(true);
   const [volumeState, setVolumeState] = useState(HIGH);
+  // const [isScrubbing, setIsScrubbing] = useState(false);
+  const isScrubbing = useRef(false);
+  const timelineContainerRef = useRef<HTMLDivElement>(null);
+
+  const [previewPosition, setPreviewPosition] = useState(0);
+  const [progressPosition, setProgressPosition] = useState(0);
+  const wasPaused = useRef(true);
 
   useEffect(() => {
     if (!season || !episode) {
@@ -58,6 +66,44 @@ function Video() {
     changeVolumeState();
   };
 
+  const toggleScrubbing = (e: React.MouseEvent | MouseEvent) => {
+    const rect = timelineContainerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const percent = Math.min(Math.max(0, e.clientX - rect.x), rect.width) / rect.width;
+
+    isScrubbing.current = e.buttons === 1;
+    videoContainerRef.current?.classList.toggle("scrubbing", isScrubbing.current);
+
+    if (isScrubbing.current) {
+      setProgressPosition(percent);
+      wasPaused.current = videoRef.current?.paused ?? true;
+      videoRef.current?.pause();
+    } else {
+      if (videoRef.current?.currentTime)
+        videoRef.current.currentTime = percent * videoRef.current.duration;
+      if (!wasPaused.current) videoRef.current?.play();
+    }
+    handleTimelineUpdate(e);
+  };
+
+  const handleTimelineUpdate = (e: React.MouseEvent | MouseEvent) => {
+    const rect = timelineContainerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const percent = Math.min(Math.max(0, e.clientX - rect.x), rect.width) / rect.width;
+    setPreviewPosition(percent);
+    if (isScrubbing.current) {
+      e.preventDefault();
+      setProgressPosition(percent);
+    }
+  };
+
+  useDocumentEvent("mouseup", (e: React.MouseEvent | MouseEvent) => {
+    if (isScrubbing.current) toggleScrubbing(e);
+  });
+  useDocumentEvent("mousemove", (e: React.MouseEvent | MouseEvent) => {
+    if (isScrubbing.current) handleTimelineUpdate(e);
+  });
+
   return season && episode ? (
     <S.VideoContainer ref={videoContainerRef} className="paused">
       <S.Video
@@ -69,8 +115,13 @@ function Video() {
         toggleVideoPlayPause={toggleVideoPlayPause}
         toggleMute={toggleMute}
         handleChangeVolume={handleChangeVolume}
+        handleTimelineUpdate={handleTimelineUpdate}
+        toggleScrubbing={toggleScrubbing}
         isPaused={isPaused}
         volumeState={volumeState}
+        previewPosition={previewPosition}
+        progressPosition={progressPosition}
+        timelineContainerRef={timelineContainerRef}
       />
     </S.VideoContainer>
   ) : null;

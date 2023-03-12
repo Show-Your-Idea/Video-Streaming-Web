@@ -10,7 +10,8 @@ export const ControlsContainer = styled.div`
   opacity: 0;
   transition: opacity 150ms ease-in-out;
   display: flex;
-  /* column-gap: 15px; */
+  align-items: center;
+  margin-inline: 8px;
 
   &::before {
     content: "";
@@ -38,6 +39,10 @@ export const IconContainer = styled.div`
   justify-content: center;
   overflow: hidden;
   cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 `;
 
 export const VolumeSlider = styled.input`
@@ -84,5 +89,63 @@ export const VolumeContainer = styled.div`
   &:hover ${VolumeSlider} {
     top: 0;
     width: 64px;
+  }
+`;
+
+export const TimelineIndicator = styled.div<{ progressPosition: number }>`
+  --scale: 0;
+  position: absolute;
+  transform: translateX(-50%) scale(var(--scale));
+  height: 200%;
+  top: -50%;
+  left: calc(${({ progressPosition }) => progressPosition} * 100%);
+  background-color: red;
+  border-radius: 50%;
+  transition: transform 100ms ease-in-out;
+  aspect-ratio: 1 / 1;
+`;
+
+export const Timeline = styled.div<{ previewPosition: number; progressPosition: number }>`
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 100%;
+  height: 3px;
+
+  ::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: calc(100% - ${({ previewPosition }) => previewPosition} * 100%);
+    background-color: rgb(150, 150, 150);
+    display: none;
+  }
+
+  ::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: calc(100% - ${({ progressPosition }) => progressPosition} * 100%);
+    background-color: red;
+  }
+`;
+
+export const TimelineContainer = styled.div`
+  height: 16px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  :hover {
+    ${Timeline} {
+      height: 7px;
+    }
+    ${TimelineIndicator} {
+      --scale: 1;
+    }
   }
 `;

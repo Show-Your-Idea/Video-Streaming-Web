@@ -10,14 +10,24 @@ export const VideoContainer = styled.div`
   margin-inline: auto;
   background-color: black;
 
-  &:hover {
+  :hover,
+  &.scrubbing {
     ${T.ControlsContainer} {
       opacity: 1;
     }
   }
 
-  &.full-screen {
-    height: 100vh;
+  &.scrubbing,
+  ${T.TimelineContainer}:hover {
+    ${T.Timeline} {
+      height: 7px;
+      ::before {
+        display: block;
+      }
+    }
+    ${T.TimelineIndicator} {
+      --scale: 1;
+    }
   }
 `;
 
