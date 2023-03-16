@@ -4,6 +4,7 @@ import * as T from "components/VideoControls/style";
 export const VideoContainer = styled.div`
   position: relative;
   width: 90%;
+  height: 100vh;
   max-width: 1000px;
   display: flex;
   justify-content: center;

@@ -92,11 +92,9 @@ export const VolumeContainer = styled.div`
   }
 `;
 
-export const Time = styled.div<{ progressPosition: number }>`
-  position: absolute;
-  top: -32px;
-  left: calc(${({ progressPosition }) => progressPosition} * 100%);
-  transform: translate(-50%);
+export const DurationContainer = styled.div`
+  width: 40px;
+  text-align: center;
 `;
 
 export const TimelineIndicator = styled.div<{ progressPosition: number }>`
@@ -108,7 +106,7 @@ export const TimelineIndicator = styled.div<{ progressPosition: number }>`
   left: calc(${({ progressPosition }) => progressPosition} * 100%);
   background-color: red;
   border-radius: 50%;
-  transition: transform 100ms ease-in-out;
+  transition: transform 50ms ease-in-out;
   aspect-ratio: 1 / 1;
 `;
 
@@ -156,9 +154,4 @@ export const TimelineContainer = styled.div`
       --scale: 1;
     }
   }
-`;
-
-export const DurationContainer = styled.div`
-  width: 40px;
-  text-align: center;
 `;

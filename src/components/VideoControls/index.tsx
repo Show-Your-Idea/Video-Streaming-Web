@@ -56,7 +56,6 @@ const VideoControls = ({
         onMouseDown={toggleScrubbing}
       >
         <S.Timeline previewPosition={previewPosition} progressPosition={progressPosition}>
-          <S.Time progressPosition={progressPosition}>{time}</S.Time>
           <S.TimelineIndicator progressPosition={progressPosition}></S.TimelineIndicator>
         </S.Timeline>
       </S.TimelineContainer>
