@@ -1,7 +1,7 @@
 import VideoControls from "components/VideoControls";
 import { HIGH, LOW, MUTED } from "constants/volume.constant";
 import { useDocumentEvent } from "hooks/useDocumentEvent.hook";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { formatDuration } from "utils/formatDuration.util";
 import * as S from "./style";
@@ -16,7 +16,6 @@ function Video() {
 
   const [isPaused, setIsPaused] = useState(true);
   const [volumeState, setVolumeState] = useState(HIGH);
-  // const [isScrubbing, setIsScrubbing] = useState(false);
   const isScrubbing = useRef(false);
   const timelineContainerRef = useRef<HTMLDivElement>(null);
 
@@ -31,8 +30,6 @@ function Video() {
       navigate("/");
       return;
     }
-
-    videoContainerRef.current?.requestFullscreen();
   }, []);
 
   const toggleVideoPlayPause = () => {
@@ -127,7 +124,6 @@ function Video() {
         onClick={toggleVideoPlayPause}
         onLoadedData={handleSetDuration}
         onTimeUpdate={handleTimeUpdate}
-        autoPlay
       ></S.Video>
       <VideoControls
         toggleVideoPlayPause={toggleVideoPlayPause}
