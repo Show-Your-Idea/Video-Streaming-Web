@@ -1,13 +1,22 @@
 import styled from "styled-components";
 
-export const Wrap = styled.div``;
-
-export const Img = styled.img`
-  width: 220px;
-  height: 124px;
+export const Episode = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  cursor: pointer;
 `;
 
-export const Title = styled.p`
-  font-size: 14px;
-  font-weight: bold;
+export const ThumbWrap = styled.div`
+  width: 220px;
+  height: 124px;
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.color.gray};
+`;
+
+export const Thumb = styled.img`
+  width: 220px;
+  height: 124px;
+  border-radius: 8px;
+  border: 0;
 `;

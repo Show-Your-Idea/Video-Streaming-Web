@@ -11,8 +11,7 @@ function Video() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const navigate = useNavigate();
   const searchParams = useSearchParams()[0];
-  const season = searchParams.get("season");
-  const episode = searchParams.get("episode");
+  const id = searchParams.get("id");
 
   const [isPaused, setIsPaused] = useState(true);
   const [volumeState, setVolumeState] = useState(HIGH);
@@ -26,7 +25,7 @@ function Video() {
   const wasPaused = useRef(true);
 
   useEffect(() => {
-    if (!season || !episode) {
+    if (!id) {
       navigate("/");
       return;
     }
@@ -105,7 +104,6 @@ function Video() {
     if (!videoRef.current?.currentTime || !videoRef.current?.duration) return;
     setTime(formatDuration(videoRef.current?.currentTime));
     const percent = videoRef.current.currentTime / videoRef.current.duration;
-    console.log(videoRef.current.currentTime / videoRef.current.duration);
     setProgressPosition(percent);
   };
 
@@ -116,11 +114,11 @@ function Video() {
     if (isScrubbing.current) handleTimelineUpdate(e);
   });
 
-  return season && episode ? (
+  return id ? (
     <S.VideoContainer ref={videoContainerRef} className="paused">
       <S.Video
         ref={videoRef}
-        src={`${process.env.REACT_APP_BASE_URL}/video?season=${season}&episode=${episode}`}
+        src={`${process.env.REACT_APP_BASE_URL}/video?id=${id}`}
         onClick={toggleVideoPlayPause}
         onLoadedData={handleSetDuration}
         onTimeUpdate={handleTimeUpdate}

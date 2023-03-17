@@ -1,30 +1,21 @@
 import { getList } from "apis/list.api";
 import EpisodesGroup from "components/EpisodesGroup";
-import RadioGroup from "components/RadioGroup";
+import UploadButton from "components/UploadButton";
 import { LIST } from "constants/key.constant";
-import { useState } from "react";
 import { useQuery } from "react-query";
 import Banner from "../../components/Banner";
 import * as S from "./style";
 
 function Home() {
-  const [seasonIdx, setSeasonIdx] = useState(0);
-
   const { data: listData } = useQuery(LIST, getList, {
     refetchOnWindowFocus: false,
   });
 
-  const season = listData?.seasons[seasonIdx];
-
   return (
     <S.Container>
       <Banner />
-      {season ? (
-        <>
-          <RadioGroup seasonList={listData.seasons} setSeasonIdx={setSeasonIdx} />
-          <EpisodesGroup season={season} episodes={listData[season.toLowerCase()]} />
-        </>
-      ) : null}
+      <UploadButton />
+      {listData ? <EpisodesGroup listData={listData} /> : null}
     </S.Container>
   );
 }

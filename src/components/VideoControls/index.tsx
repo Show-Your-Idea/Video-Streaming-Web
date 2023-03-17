@@ -61,10 +61,6 @@ const VideoControls = ({
       </S.TimelineContainer>
 
       <S.DurationContainer>{duration}</S.DurationContainer>
-
-      <S.IconContainer>
-        <S.Icon src={I.MiniPlayer} />
-      </S.IconContainer>
     </S.ControlsContainer>
   );
 };
